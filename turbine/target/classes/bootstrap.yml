@@ -1,0 +1,32 @@
+server:
+  port: 10004
+  servlet:
+    contextPath: /
+
+spring:
+  application:
+    name: turbine-service
+  profiles:
+    active: dev
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        preferIpAddress: true
+        instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+turbine:
+  aggregator:
+    cluster-config: default
+  app-config: user-service,asset-service
+  cluster-name-expression: new String("default")

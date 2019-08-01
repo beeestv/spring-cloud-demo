@@ -1,0 +1,53 @@
+server:
+  port: 10002
+  servlet:
+    contextPath: /
+
+spring:
+  application:
+    name: zuul
+  profiles:
+    active: dev
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        preferIpAddress: true
+        instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://localhost:10005
+  boot:
+    admin:
+      client:
+        url: http://localhost:10006
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+zuul:
+  routes:
+    user-service:
+      path: /user/**
+      serviceId: user-service
+      strip-prefix: false
+    asset-service:
+      path: /asset/**
+      serviceId: asset-service
+      strip-prefix: false
+
+logging:
+  level:
+    com.netflix: debug
