@@ -18,6 +18,11 @@
 常用的有**Eureka**和**Consul**，它们都提供了精美的界面来查看服务信息，也都支持集群部署。
 但是使用Eureka集群需要在配置中指定所有**Eureka**实例地址，而**Consul**实例有**server**和**client**两种模式，**client**负责对**server**集群转发服务注册和发现请求，在使用和部署上更为方便。
 
+```code
+server模式启动consul
+./consul agent -server -bootstrap-expect=1 -data-dir=./data/consul -node=node0 -bind=127.0.0.1 -datacenter=dc1 -ui
+```
+
 ### 服务消费
 
 Spring Cloud的服务消费有两种形式，都是通过服务名+接口path来调用，都能很简单地使用熔断器。

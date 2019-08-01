@@ -16,7 +16,7 @@ public class PreFilter extends ZuulFilter {
 
 	@Override
 	public String filterType() {
-		return FilterConstants.PRE_TYPE;
+		return FilterConstants.ROUTE_TYPE;
 	}
 
 	@Override
@@ -31,10 +31,14 @@ public class PreFilter extends ZuulFilter {
 
 	@Override
 	public Object run() throws ZuulException {
+		//解析请求
 		RequestContext ctx = RequestContext.getCurrentContext();
 		HttpServletRequest request = ctx.getRequest();
 		log.info(String.format("%s >>> %s", request.getMethod(), request.getRequestURL().toString()));
 		log.info("ok");
+		//读数据库
+		//路由逻辑
+		//转发
 		return null;
 	}
 }
