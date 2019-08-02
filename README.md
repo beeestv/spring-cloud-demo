@@ -10,6 +10,7 @@
 6. 链路追踪：Zipkin
 7. 服务监控：Spring Boot Admin、Hystrix Dashboard、Turbine
 
+
 ## 详细介绍
 
 ### 服务治理
@@ -20,8 +21,11 @@
 
 ```code
 server模式启动consul
-./consul agent -server -bootstrap-expect=1 -data-dir=./data/consul -node=node0 -bind=127.0.0.1 -datacenter=dc1 -ui
+./consul agent -server -bootstrap-expect=1 -data-dir=./data/consul -node=$(uname -n) -bind=127.0.0.1 -datacenter=dc1 -ui
 ```
+
+高可用方案：
+consul server起多实例做集群，每台机器本地起一个consul client加入集群，服务通过本地consul client链接server。
 
 ### 服务消费
 
@@ -95,6 +99,9 @@ zuul:
 
 因为Zuul 1性能不佳，Zuul 2迟迟未发布，Spring官方使用函数式框架WebFlux开发的网关，根据官方测试项目，比Zuul 1性能好50%左右。但是因为使用WebFlux框架，开发权限控制、限流、监控等功能有一定上手难度。
 
+高可用方案：
+网关起多个实例，Nginx做负载均衡，Nginx自身用双机热备做高可用，外部请求通过虚拟ip访问。
+
 ### 配置中心
 
 目前主流的配置中心有Spring官方的Spring Cloud Config(配置保存在本地和git)、携程的Apollo(配置保存在MySQL)、阿里的Nacos，这些服务除了配置文件的保存方式以外没有太多区别。
@@ -122,7 +129,16 @@ spring:
           uri: http://192.168.14.50/huzw/project-config.git
 ```
 
+高可用方案：
+配置中心注册到注册中心，起多实例，各个服务通过service id调用配置中心，就能实现高可用。
+
 > 有一个相关的项目叫Spring Cloud Bus，配合@RefreshScope注解，可以实时更新配置。
+
+#### 配置文件加载
+
+spring cloud应用会自动加载两种配置文件，bootstrap.yml和application.yml。
+bootstrap.yml会优先于application.yml且无法被覆盖，所以spring cloud config相关配置要放在bootstrap.yml里，这样才能在spring boot应用启动前获取到所有配置。
+
 
 ### 链路追踪
 
@@ -142,6 +158,3 @@ spring:
 ![](https://i.bmp.ovh/imgs/2019/07/26aea81409d6ffe4.png)
 
 ![](https://i.bmp.ovh/imgs/2019/07/8b6a749c11613ece.png)
-
-### bootstrap application
-
