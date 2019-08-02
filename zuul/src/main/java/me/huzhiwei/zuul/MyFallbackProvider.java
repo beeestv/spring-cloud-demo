@@ -41,7 +41,7 @@ public class MyFallbackProvider implements FallbackProvider {
 
 			@Override
 			public InputStream getBody() throws IOException {
-				String response = "{\"message\":\"服务异常\"}";
+				String response = "{\"message\":\"网关：请求服务异常\"}";
 				return new ByteArrayInputStream(response.getBytes());
 			}
 

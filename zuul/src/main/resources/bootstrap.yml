@@ -39,16 +39,16 @@ management:
       exposure:
         include: '*'
 
-zuul:
-  routes:
-    user-service:
-      path: /user/**
-      serviceId: user-service
-      strip-prefix: false
-    asset-service:
-      path: /asset/**
-      serviceId: asset-service
-      strip-prefix: false
+#zuul:
+#  routes:
+#    user-service:
+#      path: /user/**
+#      serviceId: user-service
+#      strip-prefix: false
+#    asset-service:
+#      path: /asset/**
+#      serviceId: asset-service
+#      strip-prefix: false
 
 logging:
   level:
