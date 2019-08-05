@@ -21,7 +21,7 @@
 
 ```code
 server模式启动consul
-./consul agent -server -bootstrap-expect=1 -data-dir=./data/consul -node=$(uname -n) -bind=127.0.0.1 -datacenter=dc1 -ui
+./consul agent -server -bootstrap-expect=1 -data-dir=./data/consul -node=$(uname -n) -bind=127.0.0.1 -datacenter=dc1 -ui -client=0.0.0.0
 ```
 
 高可用方案：
