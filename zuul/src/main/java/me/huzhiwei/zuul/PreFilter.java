@@ -37,6 +37,7 @@ public class PreFilter extends ZuulFilter {
 		log.info(String.format("%s >>> %s", request.getMethod(), request.getRequestURL().toString()));
 		log.info("ok");
 		//读数据库
+
 		//路由逻辑
 		//转发
 		return null;

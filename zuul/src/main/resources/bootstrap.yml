@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: zuul
+    name: zuul-service
   profiles:
     active: dev
   cloud:
@@ -39,17 +39,18 @@ management:
       exposure:
         include: '*'
 
-#zuul:
-#  routes:
-#    user-service:
-#      path: /user/**
-#      serviceId: user-service
-#      strip-prefix: false
-#    asset-service:
-#      path: /asset/**
-#      serviceId: asset-service
-#      strip-prefix: false
-
 logging:
   level:
     com.netflix: debug
+
+ribbon:
+  ConnectTimeout: 120000
+  ReadTimeout: 120000
+
+apache:
+  zookeeper:
+    address: localhost:2181
+    baseSleepTimeMs: 1000
+    maxRetries: 3
+    sessionTimeoutMs: 6000
+    connectionTimeoutMs: 6000
