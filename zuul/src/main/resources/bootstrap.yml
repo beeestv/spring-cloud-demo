@@ -42,6 +42,7 @@ management:
 logging:
   level:
     com.netflix: debug
+  file: zuul.log
 
 ribbon:
   ConnectTimeout: 120000
