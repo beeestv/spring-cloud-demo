@@ -1,31 +1,31 @@
-package me.huzhiwei.zuul;
+package me.huzhiwei.zuul.bean;
 
+import lombok.extern.slf4j.Slf4j;
 import me.huzhiwei.zuul.service.RouteService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class CustomRouteLocator extends SimpleRouteLocator implements RefreshableRouteLocator {
 
 	@Autowired
 	private RouteService routeService;
-
-	public final static Logger logger = LoggerFactory.getLogger(CustomRouteLocator.class);
 
 	private ZuulProperties properties;
 
 	public CustomRouteLocator(String servletPath, ZuulProperties properties) {
 		super(servletPath, properties);
 		this.properties = properties;
-		logger.info("servletPath:{}", servletPath);
+		log.info("servletPath:{}", servletPath);
 	}
 
 	@Override
@@ -58,7 +58,6 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
 	/**
 	 * 获取Zuul Route
 	 * 可以自定义各种数据源，如：application.properties
-	 * @return
 	 */
 	private Map<String, ZuulProperties.ZuulRoute> getAllRoutesMap() {
 		LinkedHashMap<String, ZuulProperties.ZuulRoute> routesMap = new LinkedHashMap<>();
@@ -70,8 +69,11 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
 	}
 
 	private Map<String, ZuulProperties.ZuulRoute> locateRoutesFromService() {
-		Map<String, ZuulProperties.ZuulRoute> map = routeService.getRoutes().values().stream().collect(Collectors.toMap(ZuulProperties.ZuulRoute::getPath, v -> v));
-		return map;
+		List<ZuulProperties.ZuulRoute> values = new ArrayList<>();
+		for (Map<String, ZuulProperties.ZuulRoute> value : routeService.getAllRoutes().values()) {
+			values.addAll(value.values());
+		}
+		return values.stream().collect(Collectors.toMap(ZuulProperties.ZuulRoute::getPath, v -> v));
 	}
 
 }

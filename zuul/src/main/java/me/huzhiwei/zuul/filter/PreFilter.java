@@ -1,4 +1,4 @@
-package me.huzhiwei.zuul;
+package me.huzhiwei.zuul.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;

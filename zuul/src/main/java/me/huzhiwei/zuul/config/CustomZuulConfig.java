@@ -1,5 +1,6 @@
-package me.huzhiwei.zuul;
+package me.huzhiwei.zuul.config;
 
+import me.huzhiwei.zuul.bean.CustomRouteLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
@@ -15,8 +16,7 @@ public class CustomZuulConfig {
 
     @Bean
     public CustomRouteLocator routeLocator() {
-        CustomRouteLocator routeLocator = new CustomRouteLocator(this.server.getServlet().getContextPath(),
+        return new CustomRouteLocator(this.server.getServlet().getContextPath(),
                 this.zuulProperties);
-        return routeLocator;
     }
 }

@@ -1,4 +1,4 @@
-package me.huzhiwei.zuul;
+package me.huzhiwei.zuul.bean;
 
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;

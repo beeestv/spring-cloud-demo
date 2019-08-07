@@ -1,15 +1,29 @@
 package me.huzhiwei.zuul.service;
 
+import me.huzhiwei.zuul.domain.RouteGroup;
+import me.huzhiwei.zuul.exception.ZkException;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RouteService {
-	Map<String, ZuulProperties.ZuulRoute> getRoutes();
 
-	void delRoute(String id);
+	Map<String, Map<String, ZuulProperties.ZuulRoute>> getAllRoutes();
 
-	void addRoute(ZuulProperties.ZuulRoute zuulRouteVO);
+	List<ZuulProperties.ZuulRoute> getRoutes(String groupId) throws ZkException;
 
-	void reload();
+	void deleteRoute(String groupId, String routeId) throws ZkException;
+
+	void addRoute(String groupId, ZuulProperties.ZuulRoute zuulRoute) throws ZkException;
+
+	void reload() throws ZkException;
+
+	void deleteRouteGroup(String id) throws ZkException;
+
+	void addRouteGroup(RouteGroup routeGroup) throws ZkException;
+
+	RouteGroup getRouteGroup(String id) throws ZkException;
+
+	List<RouteGroup> getRouteGroups() throws ZkException;
 }
