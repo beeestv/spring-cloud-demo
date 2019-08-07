@@ -1,8 +1,0 @@
-POST http://127.0.0.1:10001/actuator/bus-refresh/user-service
-
-###
-
-POST http://127.0.0.1:10000/actuator/bus-refresh
-
-###
-

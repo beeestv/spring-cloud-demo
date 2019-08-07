@@ -15,12 +15,6 @@ spring:
         instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
         healthCheckPath: /actuator/health
         healthCheckInterval: 15s
-    config:
-      fail-fast: true
-      profile: dev
-      discovery:
-        enabled: true
-        service-id: config-service
   sleuth:
     sampler:
       probability: 1.0
