@@ -107,6 +107,16 @@ public class RouteServiceImpl implements RouteService {
 		loadAllRoutes();
 	}
 
+	@Override
+	public boolean checkExists(String groupId, ZuulProperties.ZuulRoute zuulRoute) throws ZkException {
+		return zkService.checkExists(StringUtil.generatePath(groupId, zuulRoute.getId()));
+	}
+
+	@Override
+	public boolean checkExists(RouteGroup routeGroup) throws ZkException {
+		return zkService.checkExists(StringUtil.generatePath(routeGroup.getId()));
+	}
+
 	//TODO 修改这个方法，实现发布和下线
 	public Map<String, Map<String, ZuulProperties.ZuulRoute>> getAllRoutes() {
 		return routesMap;

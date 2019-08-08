@@ -26,4 +26,8 @@ public interface RouteService {
 	RouteGroup getRouteGroup(String id) throws ZkException;
 
 	List<RouteGroup> getRouteGroups() throws ZkException;
+
+	boolean checkExists(RouteGroup routeGroup) throws ZkException;
+
+	boolean checkExists(String groupId, ZuulProperties.ZuulRoute zuulRoute) throws ZkException;
 }

@@ -63,6 +63,9 @@ public class RouteController {
 	public Result addRoute(@PathVariable String groupId, @Valid @RequestBody ZuulRouteRO zuulRouteRO) throws ZkException {
 		ZuulProperties.ZuulRoute zuulRoute = new ZuulProperties.ZuulRoute();
 		BeanUtils.copyProperties(zuulRouteRO, zuulRoute);
+		if (routeService.checkExists(groupId, zuulRoute)) {
+			return Result.fail(Constant.ResultCode.INVALID_PARAMETER, String.format("group: %s, route: %s 已存在", groupId, zuulRoute.getId()));
+		}
 		routeService.addRoute(groupId, zuulRoute);
 		refreshService.refreshRoute();
 		return Result.success();
@@ -82,6 +85,9 @@ public class RouteController {
 
 	@PostMapping("/groups")
 	public Result addRouteGroup(@Valid @RequestBody RouteGroup routeGroup) throws ZkException {
+		if (routeService.checkExists(routeGroup)) {
+			return Result.fail(Constant.ResultCode.INVALID_PARAMETER, String.format("route group: %s 已存在", routeGroup.getId()));
+		}
 		routeService.addRouteGroup(routeGroup);
 		return Result.success();
 	}
