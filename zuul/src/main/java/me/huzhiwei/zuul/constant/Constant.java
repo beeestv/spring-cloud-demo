@@ -6,4 +6,13 @@ public class Constant {
 	public static final String ROOT_PATH = "/routes";
 
 	public static final Gson GSON = new Gson();
+
+	public static class ResultCode {
+		public static int SUCCESS = 0;
+
+		public static int SYS_ERROR = 100;
+
+		public static int INVALID_OPERATE = 200;
+		public static int INVALID_PARAMETER = 201;
+	}
 }

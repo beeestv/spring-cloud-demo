@@ -1,6 +1,7 @@
 package me.huzhiwei.zuul.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.Result;
 import me.huzhiwei.zuul.domain.RouteGroup;
 import me.huzhiwei.zuul.domain.ZuulRouteRO;
@@ -89,7 +90,7 @@ public class RouteController {
 	public Result deleteRouteGroup(@PathVariable String id) throws ZkException {
 		RouteGroup routeGroup = routeService.getRouteGroup(id);
 		if (routeGroup == null) {
-			return Result.fail(String.format("route group: %s 不存在", id));
+			return Result.fail(Constant.ResultCode.INVALID_PARAMETER, String.format("route group: %s 不存在", id));
 		}
 		routeService.deleteRouteGroup(id);
 		refreshService.refreshRoute();

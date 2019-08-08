@@ -3,12 +3,13 @@ package me.huzhiwei.zuul.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import me.huzhiwei.zuul.constant.Constant;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Result {
-	private boolean success;
+	private int code;
 	private String message;
 	private Object data;
 
@@ -16,34 +17,34 @@ public class Result {
 	 * success result
 	 */
 	public static Result success() {
-		return new Result(true, null, null);
+		return new Result(Constant.ResultCode.SUCCESS, null, null);
 	}
 
 	public static Result success(Object data) {
-		return new Result(true, null, data);
+		return new Result(Constant.ResultCode.SUCCESS, null, data);
 	}
 
 	public static Result success(String message) {
-		return new Result(true, message, null);
+		return new Result(Constant.ResultCode.SUCCESS, message, null);
 	}
 
 	public static Result success(String message, Object data) {
-		return new Result(true, message, data);
+		return new Result(Constant.ResultCode.SUCCESS, message, data);
 	}
 
 	/**
 	 * fail result
 	 * @return
 	 */
-	public static Result fail(Object data) {
-		return new Result(false, null, data);
+	public static Result fail(int code, Object data) {
+		return new Result(code, null, data);
 	}
 
-	public static Result fail(String message) {
-		return new Result(false, message, null);
+	public static Result fail(int code, String message) {
+		return new Result(code, message, null);
 	}
 
-	public static Result fail(String message, Object data) {
-		return new Result(false, message, data);
+	public static Result fail(int code, String message, Object data) {
+		return new Result(code, message, data);
 	}
 }

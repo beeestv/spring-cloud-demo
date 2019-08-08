@@ -1,6 +1,7 @@
 package me.huzhiwei.zuul.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -24,7 +25,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ZkException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result zkException(ZkException e) {
-		return Result.fail(e.getMessage());
+		return Result.fail(Constant.ResultCode.SYS_ERROR, e.getMessage());
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -32,13 +33,13 @@ public class GlobalExceptionHandler {
 	public Result validationError(MethodArgumentNotValidException ex) {
 		BindingResult result = ex.getBindingResult();
 		final List<FieldError> fieldErrors = result.getFieldErrors();
-		return Result.fail(fieldErrors);
+		return Result.fail(Constant.ResultCode.INVALID_PARAMETER, fieldErrors);
 	}
 
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result runtimeException(RuntimeException e) {
-		return Result.fail(e.getMessage());
+		return Result.fail(Constant.ResultCode.SYS_ERROR, e.getMessage());
 	}
 
 }
