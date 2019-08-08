@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 	public Result validationError(MethodArgumentNotValidException ex) {
 		BindingResult result = ex.getBindingResult();
 		final List<FieldError> fieldErrors = result.getFieldErrors();
-		return Result.fail(Constant.ResultCode.INVALID_PARAMETER, fieldErrors);
+		return Result.fail(Constant.ResultCode.INVALID_PARAMETER, ex.getMessage(), fieldErrors);
 	}
 
 	@ExceptionHandler(RuntimeException.class)
