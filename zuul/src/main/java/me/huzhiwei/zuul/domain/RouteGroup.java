@@ -2,15 +2,13 @@ package me.huzhiwei.zuul.domain;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 public class RouteGroup {
 
-	@NotNull
 	private String id;
 
-	@NotNull
+	private String name;
+
 	private Boolean online;
 
 }

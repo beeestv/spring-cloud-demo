@@ -36,9 +36,9 @@ public class GlobalExceptionHandler {
 		return Result.fail(Constant.ResultCode.INVALID_PARAMETER, ex.getMessage(), fieldErrors);
 	}
 
-	@ExceptionHandler(RuntimeException.class)
+	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Result runtimeException(RuntimeException e) {
+	public Result runtimeException(Exception e) {
 		return Result.fail(Constant.ResultCode.SYS_ERROR, e.getMessage());
 	}
 

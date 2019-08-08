@@ -3,20 +3,22 @@ package me.huzhiwei.zuul.controller;
 import lombok.extern.slf4j.Slf4j;
 import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.Result;
+import me.huzhiwei.zuul.domain.Route;
+import me.huzhiwei.zuul.domain.RouteAddRO;
 import me.huzhiwei.zuul.domain.RouteGroup;
-import me.huzhiwei.zuul.domain.ZuulRouteRO;
+import me.huzhiwei.zuul.domain.RouteGroupAddRO;
 import me.huzhiwei.zuul.exception.ZkException;
 import me.huzhiwei.zuul.service.RefreshService;
 import me.huzhiwei.zuul.service.RouteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.web.ZuulHandlerMapping;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,13 +62,20 @@ public class RouteController {
 	}
 
 	@PostMapping("/groups/{groupId}/routes")
-	public Result addRoute(@PathVariable String groupId, @Valid @RequestBody ZuulRouteRO zuulRouteRO) throws ZkException {
-		ZuulProperties.ZuulRoute zuulRoute = new ZuulProperties.ZuulRoute();
-		BeanUtils.copyProperties(zuulRouteRO, zuulRoute);
-		if (routeService.checkExists(groupId, zuulRoute)) {
-			return Result.fail(Constant.ResultCode.INVALID_PARAMETER, String.format("group: %s, route: %s 已存在", groupId, zuulRoute.getId()));
-		}
-		routeService.addRoute(groupId, zuulRoute);
+	public Result addRoute(@PathVariable String groupId, @Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
+		Route route = new Route();
+		BeanUtils.copyProperties(routeAddRO, route);
+		routeService.addRoute(groupId, route);
+		refreshService.refreshRoute();
+		return Result.success();
+	}
+
+	@PutMapping("/groups/{groupId}/routes/{routeId}")
+	public Result updateRoute(@PathVariable String groupId, @PathVariable String routeId, @Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
+		routeAddRO.setId(routeId);
+		Route route = new Route();
+		BeanUtils.copyProperties(routeAddRO, route);
+		routeService.updateRoute(groupId, route);
 		refreshService.refreshRoute();
 		return Result.success();
 	}
@@ -84,11 +93,19 @@ public class RouteController {
 	}
 
 	@PostMapping("/groups")
-	public Result addRouteGroup(@Valid @RequestBody RouteGroup routeGroup) throws ZkException {
-		if (routeService.checkExists(routeGroup)) {
-			return Result.fail(Constant.ResultCode.INVALID_PARAMETER, String.format("route group: %s 已存在", routeGroup.getId()));
-		}
+	public Result addRouteGroup(@Valid @RequestBody RouteGroupAddRO routeGroupAddRO) throws ZkException {
+		RouteGroup routeGroup = new RouteGroup();
+		BeanUtils.copyProperties(routeGroupAddRO, routeGroup);
 		routeService.addRouteGroup(routeGroup);
+		return Result.success(routeGroup);
+	}
+
+	@PutMapping("/groups/{groupId}")
+	public Result updateRouteGroup(@PathVariable String groupId, @Valid @RequestBody RouteGroupAddRO routeGroupAddRO) throws ZkException {
+		routeGroupAddRO.setId(groupId);
+		RouteGroup routeGroup = new RouteGroup();
+		BeanUtils.copyProperties(routeGroupAddRO, routeGroup);
+		routeService.updateRouteGroup(routeGroup);
 		return Result.success();
 	}
 

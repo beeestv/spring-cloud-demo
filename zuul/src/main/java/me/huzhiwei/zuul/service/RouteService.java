@@ -1,5 +1,6 @@
 package me.huzhiwei.zuul.service;
 
+import me.huzhiwei.zuul.domain.Route;
 import me.huzhiwei.zuul.domain.RouteGroup;
 import me.huzhiwei.zuul.exception.ZkException;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
@@ -11,11 +12,11 @@ public interface RouteService {
 
 	Map<String, Map<String, ZuulProperties.ZuulRoute>> getAllRoutes();
 
-	List<ZuulProperties.ZuulRoute> getRoutes(String groupId) throws ZkException;
+	List<Route> getRoutes(String groupId) throws ZkException;
 
 	void deleteRoute(String groupId, String routeId) throws ZkException;
 
-	void addRoute(String groupId, ZuulProperties.ZuulRoute zuulRoute) throws ZkException;
+	void addRoute(String groupId, Route zuulRoute) throws Exception;
 
 	void reload() throws ZkException;
 
@@ -29,5 +30,9 @@ public interface RouteService {
 
 	boolean checkExists(RouteGroup routeGroup) throws ZkException;
 
-	boolean checkExists(String groupId, ZuulProperties.ZuulRoute zuulRoute) throws ZkException;
+	boolean checkExists(String groupId, Route zuulRoute) throws ZkException;
+
+	void updateRoute(String groupId, Route route) throws Exception;
+
+	void updateRouteGroup(RouteGroup routeGroup) throws ZkException;
 }

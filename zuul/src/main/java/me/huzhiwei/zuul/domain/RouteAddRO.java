@@ -7,13 +7,15 @@ import javax.validation.constraints.NotBlank;
 /**
  * description:
  * author: koshitakashi
- * date: 2019-08-07 16:12
+ * date: 2019-08-08 16:31
  */
 @Data
-public class ZuulRouteRO {
+public class RouteAddRO {
+
+	private String id;
 
 	@NotBlank
-	private String id;
+	private String name;
 
 	@NotBlank
 	private String path;

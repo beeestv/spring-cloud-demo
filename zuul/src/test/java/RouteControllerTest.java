@@ -1,7 +1,7 @@
 import me.huzhiwei.zuul.ZuulApplication;
 import me.huzhiwei.zuul.constant.Constant;
+import me.huzhiwei.zuul.domain.RouteAddRO;
 import me.huzhiwei.zuul.domain.RouteGroup;
-import me.huzhiwei.zuul.domain.ZuulRouteRO;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class RouteControllerTest {
 	@Test
 	public void testAAddRouteGroup() throws Exception {
 		RouteGroup routeGroup = new RouteGroup();
-		routeGroup.setId("business");
+		routeGroup.setName("business");
 		routeGroup.setOnline(true);
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/route/groups").content(Constant.GSON.toJson(routeGroup)).contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
@@ -49,8 +49,8 @@ public class RouteControllerTest {
 
 	@Test
 	public void testCAddRoute() throws Exception {
-		ZuulRouteRO zuulRouteRO = new ZuulRouteRO();
-		zuulRouteRO.setId("user");
+		RouteAddRO zuulRouteRO = new RouteAddRO();
+		zuulRouteRO.setName("user");
 		zuulRouteRO.setPath("/user/**");
 		zuulRouteRO.setStripPrefix(false);
 		zuulRouteRO.setServiceId("user-service");
