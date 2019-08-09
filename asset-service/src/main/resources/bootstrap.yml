@@ -37,6 +37,8 @@ spring:
     admin:
       client:
         url: http://localhost:10006
+        instance:
+          prefer-ip: true
 
 management:
   endpoints:
