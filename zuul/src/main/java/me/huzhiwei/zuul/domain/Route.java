@@ -24,4 +24,5 @@ public class Route implements Serializable {
     private String url;
     private boolean stripPrefix = false;
     private Boolean retryable;
+    private String groupId;
 }

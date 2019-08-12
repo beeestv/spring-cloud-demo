@@ -21,14 +21,16 @@ CREATE TABLE `route`
     `service_id`   varchar(255) DEFAULT NULL,
     `url`          varchar(255) DEFAULT NULL,
     `strip_prefix` tinyint(1)   NOT NULL,
+    `group_id`     bigint(11)   NOT NULL,
     UNIQUE KEY (`name`),
-    UNIQUE KEY (`path`)
+    UNIQUE KEY (`path`),
+    KEY (`group_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
 
 DROP TABLE IF EXISTS `request`;
-CREATE TABLE `route`
+CREATE TABLE `request`
 (
     `id`           bigint(11)   NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `route_id`     varchar(50)  NOT NULL,
