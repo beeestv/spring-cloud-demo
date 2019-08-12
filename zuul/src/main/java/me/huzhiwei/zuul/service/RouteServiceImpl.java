@@ -51,7 +51,6 @@ public class RouteServiceImpl implements RouteService {
 			for (Route route : zkService.getChildrenValue(path, Route.class)) {
 				zuulRoute = new ZuulProperties.ZuulRoute();
 				BeanUtils.copyProperties(route, zuulRoute);
-				zuulRoute.setId(route.getName());
 
 				routesMap.get(id).put(route.getId(), zuulRoute);
 			}
@@ -134,8 +133,6 @@ public class RouteServiceImpl implements RouteService {
 
 		ZuulProperties.ZuulRoute zuulRoute = new ZuulProperties.ZuulRoute();
 		BeanUtils.copyProperties(route, zuulRoute);
-		//Route的name是ZuulRoute的id
-		zuulRoute.setId(route.getName());
 		routesMap.get(groupId).put(route.getId(), zuulRoute);
 	}
 
@@ -159,8 +156,6 @@ public class RouteServiceImpl implements RouteService {
 
 		ZuulProperties.ZuulRoute zuulRoute = new ZuulProperties.ZuulRoute();
 		BeanUtils.copyProperties(route, zuulRoute);
-		//Route的name是ZuulRoute的id
-		zuulRoute.setId(route.getName());
 		routesMap.get(groupId).put(route.getId(), zuulRoute);
 	}
 

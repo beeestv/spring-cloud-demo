@@ -59,8 +59,14 @@ ribbon:
 apache:
   zookeeper:
     address: localhost:2181
-#    address: 192.168.14.78:2181
+    #    address: 192.168.14.78:2181
     baseSleepTimeMs: 1000
     maxRetries: 3
     sessionTimeoutMs: 6000
     connectionTimeoutMs: 6000
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

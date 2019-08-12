@@ -43,3 +43,6 @@ management:
     web:
       exposure:
         include: '*'
+
+user-service:
+  name: huzhiwei

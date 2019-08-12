@@ -28,7 +28,7 @@ public class MapperTest {
 		routeGroup.setOnline(true);
 		routeGroup.setName("user");
 		routeGroupMapper.insert(routeGroup);
-		routeGroupMapper.selectAllRouteGroups().forEach(System.out::println);
+		routeGroupMapper.selectAll().forEach(System.out::println);
 	}
 
 }
