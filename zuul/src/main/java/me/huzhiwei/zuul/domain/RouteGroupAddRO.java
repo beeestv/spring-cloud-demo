@@ -20,4 +20,6 @@ public class RouteGroupAddRO {
 
 	@NotNull
 	private Boolean online;
+
+	private String description;
 }

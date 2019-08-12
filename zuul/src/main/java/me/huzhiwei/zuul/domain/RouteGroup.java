@@ -11,4 +11,6 @@ public class RouteGroup {
 
 	private Boolean online;
 
+	private String description;
+
 }
