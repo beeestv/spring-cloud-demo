@@ -7,6 +7,8 @@ public class Constant {
 
 	public static final Gson GSON = new Gson();
 
+	public static final String REQUEST_ID = "requestId";
+
 	public static class ResultCode {
 		public static int SUCCESS = 0;
 

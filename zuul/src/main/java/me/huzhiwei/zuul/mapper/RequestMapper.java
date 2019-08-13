@@ -1,7 +1,10 @@
 package me.huzhiwei.zuul.mapper;
 
 import me.huzhiwei.zuul.domain.Request;
+import me.huzhiwei.zuul.domain.RequestQuery;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.Map;
 
 /**
  * description:
@@ -10,4 +13,5 @@ import tk.mybatis.mapper.common.Mapper;
  */
 public interface RequestMapper extends Mapper<Request> {
 
+    Map<String, Object> overview(RequestQuery query);
 }

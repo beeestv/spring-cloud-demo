@@ -10,13 +10,13 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ZkException extends Exception {
+public class BusinessException extends Exception {
 
-	public ZkException(String message) {
+	public BusinessException(String message) {
 		super(message);
 	}
 
-	public ZkException(String message, Exception e) {
+	public BusinessException(String message, Exception e) {
 		super(message, e);
 	}
 }

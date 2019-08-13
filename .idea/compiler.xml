@@ -6,12 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="zuul" />
         <module name="common" />
         <module name="turbine" />
         <module name="zipkin" />
         <module name="asset-service" />
         <module name="user-service" />
-        <module name="zuul" />
         <module name="config" />
         <module name="admin" />
       </profile>

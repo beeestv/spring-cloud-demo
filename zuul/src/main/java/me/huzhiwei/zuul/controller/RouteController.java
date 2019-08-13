@@ -7,7 +7,7 @@ import me.huzhiwei.zuul.domain.Route;
 import me.huzhiwei.zuul.domain.RouteAddRO;
 import me.huzhiwei.zuul.domain.RouteGroup;
 import me.huzhiwei.zuul.domain.RouteGroupAddRO;
-import me.huzhiwei.zuul.exception.ZkException;
+import me.huzhiwei.zuul.exception.BusinessException;
 import me.huzhiwei.zuul.service.RefreshService;
 import me.huzhiwei.zuul.service.RouteService;
 import org.springframework.beans.BeanUtils;
@@ -50,12 +50,12 @@ public class RouteController {
 
 
 	@GetMapping("/groups/{groupId}/routes")
-	public Result getRoutes(@PathVariable String groupId) throws ZkException {
+	public Result getRoutes(@PathVariable String groupId) {
 		return Result.success(routeService.getRoutes(groupId));
 	}
 
 	@DeleteMapping("/groups/{groupId}/routes/{routeId}")
-	public Result delRoute(@PathVariable String groupId, @PathVariable String routeId) throws ZkException {
+	public Result delRoute(@PathVariable String groupId, @PathVariable String routeId) {
 		routeService.deleteRoute(groupId, routeId);
 		refreshService.refreshRoute();
 		return Result.success();
@@ -81,19 +81,19 @@ public class RouteController {
 	}
 
 	@GetMapping("/refreshRoute")
-	public Result refresh() throws ZkException {
+	public Result refresh() {
 		routeService.reload();
 		refreshService.refreshRoute();
 		return Result.success();
 	}
 
 	@GetMapping("/groups")
-	public Result getRouteGroups() throws ZkException {
+	public Result getRouteGroups() {
 		return Result.success(routeService.getRouteGroups());
 	}
 
 	@PostMapping("/groups")
-	public Result addRouteGroup(@Valid @RequestBody RouteGroupAddRO routeGroupAddRO) throws ZkException {
+	public Result addRouteGroup(@Valid @RequestBody RouteGroupAddRO routeGroupAddRO) throws BusinessException {
 		RouteGroup routeGroup = new RouteGroup();
 		BeanUtils.copyProperties(routeGroupAddRO, routeGroup);
 		routeService.addRouteGroup(routeGroup);
@@ -101,7 +101,7 @@ public class RouteController {
 	}
 
 	@PutMapping("/groups/{groupId}")
-	public Result updateRouteGroup(@PathVariable String groupId, @Valid @RequestBody RouteGroupAddRO routeGroupAddRO) throws ZkException {
+	public Result updateRouteGroup(@PathVariable String groupId, @Valid @RequestBody RouteGroupAddRO routeGroupAddRO) throws BusinessException {
 		routeGroupAddRO.setId(groupId);
 		RouteGroup routeGroup = new RouteGroup();
 		BeanUtils.copyProperties(routeGroupAddRO, routeGroup);
@@ -110,7 +110,7 @@ public class RouteController {
 	}
 
 	@DeleteMapping("/groups/{id}")
-	public Result deleteRouteGroup(@PathVariable String id) throws ZkException {
+	public Result deleteRouteGroup(@PathVariable String id) {
 		RouteGroup routeGroup = routeService.getRouteGroup(id);
 		if (routeGroup == null) {
 			return Result.fail(Constant.ResultCode.INVALID_PARAMETER, String.format("route group: %s 不存在", id));

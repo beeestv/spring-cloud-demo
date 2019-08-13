@@ -22,23 +22,26 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(ZkException.class)
+	@ExceptionHandler(BusinessException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Result zkException(ZkException e) {
+	public Result businessException(BusinessException e) {
+		log.error(e.getMessage(), e);
 		return Result.fail(Constant.ResultCode.SYS_ERROR, e.getMessage());
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Result validationError(MethodArgumentNotValidException ex) {
-		BindingResult result = ex.getBindingResult();
+	public Result validationError(MethodArgumentNotValidException e) {
+		BindingResult result = e.getBindingResult();
 		final List<FieldError> fieldErrors = result.getFieldErrors();
-		return Result.fail(Constant.ResultCode.INVALID_PARAMETER, ex.getMessage(), fieldErrors);
+		log.error(e.getMessage(), e);
+		return Result.fail(Constant.ResultCode.INVALID_PARAMETER, e.getMessage(), fieldErrors);
 	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result runtimeException(Exception e) {
+		log.error(e.getMessage(), e);
 		return Result.fail(Constant.ResultCode.SYS_ERROR, e.getMessage());
 	}
 

@@ -2,12 +2,12 @@ package me.huzhiwei.zuul.domain;
 
 import com.netflix.zuul.context.RequestContext;
 import lombok.Data;
+import me.huzhiwei.zuul.util.UuidUtil;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.Optional;
 
 /**
  * description:
@@ -22,6 +22,7 @@ public class Request implements Serializable {
     @Id
     @KeySql(useGeneratedKeys = true)
     private String id;
+    private String requestId;
     private String routeId;
     private String host;
     private String method;
@@ -29,18 +30,27 @@ public class Request implements Serializable {
     private String uri;
     private String routeHost;
     private String serviceId;
+    private Long responseSize;
     private Long requestTime;
 
+    public Request() {
+    }
+
     public Request(RequestContext requestContext) {
+        this.requestId = String.valueOf(UuidUtil.getId());
+        initFromRequestContext(requestContext);
+    }
+
+    public Request(String requestId, RequestContext requestContext) {
+        this.requestId = requestId;
+        initFromRequestContext(requestContext);
+    }
+
+    private void initFromRequestContext(RequestContext requestContext) {
         HttpServletRequest request = requestContext.getRequest();
-        this.routeId = (String) requestContext.get("proxy");
         this.host = request.getHeader("host");
         this.method = request.getMethod();
         this.url = request.getRequestURL().toString();
-        this.uri = (String) requestContext.get("requestURI");
-        Optional.ofNullable(requestContext.get("routeHost"))
-                .ifPresent(routeHost -> this.routeHost = routeHost.toString());
-        this.serviceId = (String) requestContext.get("serviceId");
         this.requestTime = System.currentTimeMillis();
     }
 }

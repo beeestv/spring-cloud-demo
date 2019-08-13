@@ -1,5 +1,6 @@
 import me.huzhiwei.zuul.ZuulApplication;
-import me.huzhiwei.zuul.domain.RouteGroup;
+import me.huzhiwei.zuul.domain.RequestQuery;
+import me.huzhiwei.zuul.mapper.RequestMapper;
 import me.huzhiwei.zuul.mapper.RouteGroupMapper;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -22,13 +23,25 @@ public class MapperTest {
 	@Autowired
 	private RouteGroupMapper routeGroupMapper;
 
+	@Autowired
+	private RequestMapper requestMapper;
+
 	@Test
-	public void testAInsertRouteGroup() {
-		RouteGroup routeGroup = new RouteGroup();
-		routeGroup.setOnline(true);
-		routeGroup.setName("user");
-		routeGroupMapper.insert(routeGroup);
-		routeGroupMapper.selectAll().forEach(System.out::println);
+	public void testAInsertRouteGroup2() {
+		RequestQuery query = new RequestQuery();
+		System.out.println(requestMapper.overview(query));
+
+		query.setGroupId("4");
+		System.out.println(requestMapper.overview(query));
+
+		query.setGroupId("2");
+		System.out.println(requestMapper.overview(query));
+
+		query.setRouteId("9");
+		System.out.println(requestMapper.overview(query));
+
+		query.setBeginTime(1L);
+		System.out.println(requestMapper.overview(query));
 	}
 
 }

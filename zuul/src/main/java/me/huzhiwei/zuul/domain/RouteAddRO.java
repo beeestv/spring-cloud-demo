@@ -24,7 +24,10 @@ public class RouteAddRO {
 
 	private String url;
 
-	private boolean stripPrefix = false;
+	private Boolean stripPrefix = false;
 
 	private Boolean retryable;
+
+	@NotBlank
+	private String groupId;
 }

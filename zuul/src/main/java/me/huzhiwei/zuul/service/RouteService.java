@@ -2,7 +2,7 @@ package me.huzhiwei.zuul.service;
 
 import me.huzhiwei.zuul.domain.Route;
 import me.huzhiwei.zuul.domain.RouteGroup;
-import me.huzhiwei.zuul.exception.ZkException;
+import me.huzhiwei.zuul.exception.BusinessException;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 
 import java.util.List;
@@ -12,27 +12,23 @@ public interface RouteService {
 
 	Map<String, Map<String, ZuulProperties.ZuulRoute>> getAllRoutes();
 
-	List<Route> getRoutes(String groupId) throws ZkException;
+	List<Route> getRoutes(String groupId);
 
-	void deleteRoute(String groupId, String routeId) throws ZkException;
+	void deleteRoute(String groupId, String routeId);
 
 	void addRoute(String groupId, Route zuulRoute) throws Exception;
 
-	void reload() throws ZkException;
+	void reload();
 
-	void deleteRouteGroup(String id) throws ZkException;
+	void deleteRouteGroup(String id);
 
-	void addRouteGroup(RouteGroup routeGroup) throws ZkException;
+	void addRouteGroup(RouteGroup routeGroup) throws BusinessException;
 
-	RouteGroup getRouteGroup(String id) throws ZkException;
+	RouteGroup getRouteGroup(String id);
 
-	List<RouteGroup> getRouteGroups() throws ZkException;
-
-	boolean checkExists(RouteGroup routeGroup) throws ZkException;
-
-	boolean checkExists(String groupId, Route zuulRoute) throws ZkException;
+	List<RouteGroup> getRouteGroups();
 
 	void updateRoute(String groupId, Route route) throws Exception;
 
-	void updateRouteGroup(RouteGroup routeGroup) throws ZkException;
+	void updateRouteGroup(RouteGroup routeGroup) throws BusinessException;
 }

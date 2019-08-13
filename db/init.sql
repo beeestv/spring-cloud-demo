@@ -32,15 +32,17 @@ CREATE TABLE `route`
 DROP TABLE IF EXISTS `request`;
 CREATE TABLE `request`
 (
-    `id`           bigint(11)   NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `route_id`     varchar(50)  NOT NULL,
-    `host`         varchar(50)  NOT NULL,
-    `method`       varchar(10)  NOT NULL,
-    `url`          varchar(100) NOT NULL,
-    `uri`          varchar(100) NOT NULL,
-    `service_id`   varchar(100) DEFAULT NULL,
-    `route_host`   varchar(100) DEFAULT NULL,
-    `request_time` bigint(20)   NOT NULL,
-    KEY (`host`)
+    `id`            bigint(11)   NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `request_id`    bigint(20)   NOT NULL,
+    `host`          varchar(50)  NOT NULL,
+    `method`        varchar(10)  NOT NULL,
+    `url`           varchar(100) NOT NULL,
+    `uri`           varchar(100) DEFAULT NULL,
+    `route_id`      varchar(50)  DEFAULT NULL,
+    `service_id`    varchar(100) DEFAULT NULL,
+    `route_host`    varchar(100) DEFAULT NULL,
+    `response_size` bigint(8)    DEFAULT NULL,
+    `request_time`  bigint(20)   NOT NULL,
+    KEY (`request_time`, `host`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

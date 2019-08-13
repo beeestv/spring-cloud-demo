@@ -18,4 +18,9 @@ public class RouteGroup implements Serializable {
     private Boolean online;
     private String description;
 
+    public RouteGroup() {}
+
+    public RouteGroup(String id) {
+        this.id = id;
+    }
 }

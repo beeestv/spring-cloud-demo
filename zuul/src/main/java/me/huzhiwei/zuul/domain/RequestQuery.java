@@ -12,5 +12,5 @@ public class RequestQuery extends Query {
     private String groupId;
     private String routeId;
     private Long beginTime;
-    private Long endTime;
+    private Long endTime = System.currentTimeMillis();
 }
