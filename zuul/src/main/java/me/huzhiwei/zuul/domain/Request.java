@@ -24,7 +24,7 @@ public class Request implements Serializable {
     private String id;
     private String requestId;
     private String routeId;
-    private String host;
+    private String clientIp;
     private String method;
     private String url;
     private String uri;
@@ -48,9 +48,14 @@ public class Request implements Serializable {
 
     private void initFromRequestContext(RequestContext requestContext) {
         HttpServletRequest request = requestContext.getRequest();
-        this.host = request.getHeader("host");
         this.method = request.getMethod();
         this.url = request.getRequestURL().toString();
         this.requestTime = System.currentTimeMillis();
+        this.clientIp = request.getHeader("X-FORWARDED-FOR");
+        if (this.clientIp == null) {
+            this.clientIp = request.getRemoteAddr();
+        } else {
+            this.clientIp = this.clientIp.contains(",") ? this.clientIp.split(",")[0] : this.clientIp;
+        }
     }
 }
