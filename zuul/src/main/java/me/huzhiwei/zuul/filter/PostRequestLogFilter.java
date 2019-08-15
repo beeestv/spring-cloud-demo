@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -48,7 +49,7 @@ public class PostRequestLogFilter extends ZuulFilter {
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
-        Long payload = ctx.getOriginContentLength();
+        Long payload = Objects.isNull(ctx.getOriginContentLength()) ? 0L : ctx.getOriginContentLength();
         Long headers = 0L;
         for (Pair<String, String> responseHeader : (ArrayList<Pair<String, String>>)(ctx.get("zuulResponseHeaders"))) {
             headers += responseHeader.first().length();

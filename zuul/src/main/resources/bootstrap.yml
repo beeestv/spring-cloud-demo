@@ -67,8 +67,10 @@ management:
 logging:
   level:
     root: warn
-    com.netflix: debug
-  file: zuul.log
+#    com.netflix: debug
+    me.huzhiwei.zuul.mapper: debug
+    me.huzhiwei.zuul.config: trace
+  file: log/zuul.log
 
 ribbon:
   ConnectTimeout: 120000

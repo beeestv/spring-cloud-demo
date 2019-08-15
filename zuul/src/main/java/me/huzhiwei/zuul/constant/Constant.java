@@ -16,5 +16,8 @@ public class Constant {
 
 		public static int INVALID_OPERATE = 200;
 		public static int INVALID_PARAMETER = 201;
+
+		public static int UNAUTHORIZED = 401;
+		public static int FORBIDDEN = 403;
 	}
 }
