@@ -34,7 +34,7 @@ CREATE TABLE `request`
 (
     `id`            bigint(11)   NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `request_id`    bigint(20)   NOT NULL,
-    `host`          varchar(50)  NOT NULL,
+    `client_ip`          varchar(50)  NOT NULL,
     `method`        varchar(10)  NOT NULL,
     `url`           varchar(100) NOT NULL,
     `uri`           varchar(100) DEFAULT NULL,
@@ -43,6 +43,6 @@ CREATE TABLE `request`
     `route_host`    varchar(100) DEFAULT NULL,
     `response_size` bigint(8)    DEFAULT NULL,
     `request_time`  bigint(20)   NOT NULL,
-    KEY (`request_time`, `host`)
+    KEY (`request_time`, `client_ip`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

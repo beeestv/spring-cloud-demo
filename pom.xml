@@ -33,7 +33,7 @@
 		<module>turbine</module>
 		<module>zipkin</module>
 		<module>admin</module>
-	</modules>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>
