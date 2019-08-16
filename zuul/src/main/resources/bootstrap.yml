@@ -67,9 +67,8 @@ management:
 logging:
   level:
     root: warn
-#    com.netflix: debug
+    com.netflix: debug
     me.huzhiwei.zuul.mapper: debug
-    me.huzhiwei.zuul.config: trace
   file: log/zuul.log
 
 ribbon:
