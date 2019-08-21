@@ -40,7 +40,7 @@ public class OAuth2Config {
         public void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/zuul/**", "/actuator/**", "/hystrix/**").anonymous()
+                    .antMatchers("/gateway/**", "/actuator/**", "/hystrix/**").anonymous()
                     .and()
                     .authorizeRequests()
                     .anyRequest().authenticated()

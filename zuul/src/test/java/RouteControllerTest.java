@@ -103,7 +103,7 @@ public class RouteControllerTest {
 		serviceAddRO.setName("demo-service");
 		serviceAddRO.setCheckUrl("/consul/check");
 		serviceAddRO.setInterval("10s");
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/zuul/consul/services").content(Constant.GSON.toJson(serviceAddRO)).contentType(MediaType.APPLICATION_JSON))
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/gateway/consul/services").content(Constant.GSON.toJson(serviceAddRO)).contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		System.out.println(result.getResponse().getContentAsString());
 	}

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * date: 2019-08-20 17:15
  */
 @RestController
-@RequestMapping("/zuul/consul")
+@RequestMapping("/gateway/consul")
 public class ConsulController {
 
     @Autowired

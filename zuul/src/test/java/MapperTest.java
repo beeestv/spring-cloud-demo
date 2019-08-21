@@ -61,7 +61,7 @@ public class MapperTest {
     @Test
     public void testInsertClient() {
         Client client = new Client();
-        client.setClientId("tester");
+        client.setClientId("tester2");
         client.setClientSecret("123456");
         client.setResourceIds(OAuth2Config.RESOURECE_ID);
         client.setScope("read");
