@@ -1,5 +1,6 @@
 package me.huzhiwei.zuul.exception;
 
+import com.ecwid.consul.v1.OperationException;
 import lombok.extern.slf4j.Slf4j;
 import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.Result;
@@ -45,4 +46,10 @@ public class GlobalExceptionHandler {
 		return Result.fail(Constant.ResultCode.SYS_ERROR, e.getMessage());
 	}
 
+	@ExceptionHandler(OperationException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Result operationException(OperationException e) {
+		log.error(e.getMessage(), e);
+		return Result.fail(Constant.ResultCode.CONSUL_ERROR, e.getMessage());
+	}
 }

@@ -17,7 +17,7 @@ import java.util.Map;
  * date: 2019-08-12 15:10
  */
 @RestController
-@RequestMapping("/monitor")
+@RequestMapping("/zuul/monitor")
 @Slf4j
 public class MonitorController {
 

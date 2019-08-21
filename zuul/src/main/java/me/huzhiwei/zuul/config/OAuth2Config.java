@@ -26,7 +26,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class OAuth2Config {
-    private static String RESOURECE_ID = "RID";
+    public static String RESOURECE_ID = "RID";
 
     @Configuration
     @EnableResourceServer
@@ -40,7 +40,7 @@ public class OAuth2Config {
         public void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/actuator/**", "/monitor/**", "/route/**", "/hystrix/**").anonymous()
+                    .antMatchers("/zuul/**", "/actuator/**", "/hystrix/**").anonymous()
                     .and()
                     .authorizeRequests()
                     .anyRequest().authenticated()

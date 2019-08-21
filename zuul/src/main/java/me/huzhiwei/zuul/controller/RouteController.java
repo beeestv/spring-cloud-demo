@@ -27,7 +27,7 @@ import javax.validation.Valid;
 
 @Validated
 @RestController
-@RequestMapping(value = "/route")
+@RequestMapping(value = "/zuul/route")
 @Slf4j
 public class RouteController {
 

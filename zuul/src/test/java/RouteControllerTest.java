@@ -2,6 +2,7 @@ import me.huzhiwei.zuul.ZuulApplication;
 import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.RouteAddRO;
 import me.huzhiwei.zuul.domain.RouteGroup;
+import me.huzhiwei.zuul.domain.ServiceAddRO;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -93,4 +94,18 @@ public class RouteControllerTest {
 				.andReturn();
 		System.out.println(result.getResponse().getContentAsString());
 	}
+
+	@Test
+	public void testAddService() throws Exception {
+		ServiceAddRO serviceAddRO = new ServiceAddRO();
+		serviceAddRO.setAddress("127.0.0.1");
+		serviceAddRO.setPort(9000);
+		serviceAddRO.setName("demo-service");
+		serviceAddRO.setCheckUrl("/consul/check");
+		serviceAddRO.setInterval("10s");
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/zuul/consul/services").content(Constant.GSON.toJson(serviceAddRO)).contentType(MediaType.APPLICATION_JSON))
+				.andReturn();
+		System.out.println(result.getResponse().getContentAsString());
+	}
+
 }

@@ -19,5 +19,7 @@ public class Constant {
 
 		public static int UNAUTHORIZED = 401;
 		public static int FORBIDDEN = 403;
+
+		public static int CONSUL_ERROR = 600;
 	}
 }
