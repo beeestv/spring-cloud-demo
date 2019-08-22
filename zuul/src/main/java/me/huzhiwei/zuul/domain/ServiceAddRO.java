@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class ServiceAddRO {
-    private String name;
+    private String service;
     private String address;
     private Integer port;
     private Boolean enableTagOverride = false;

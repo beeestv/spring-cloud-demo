@@ -96,11 +96,18 @@ public class RouteControllerTest {
 	}
 
 	@Test
+	public void testCheckService() throws Exception {
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/gateway/consul/services/zuul-service-192-168-38-213-10002"))
+				.andReturn();
+		System.out.println(result.getResponse().getContentAsString());
+	}
+
+	@Test
 	public void testAddService() throws Exception {
 		ServiceAddRO serviceAddRO = new ServiceAddRO();
 		serviceAddRO.setAddress("127.0.0.1");
 		serviceAddRO.setPort(9000);
-		serviceAddRO.setName("demo-service");
+		serviceAddRO.setService("demo-service");
 		serviceAddRO.setCheckUrl("/consul/check");
 		serviceAddRO.setInterval("10s");
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/gateway/consul/services").content(Constant.GSON.toJson(serviceAddRO)).contentType(MediaType.APPLICATION_JSON))
