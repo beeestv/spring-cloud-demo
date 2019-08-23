@@ -5,10 +5,11 @@ import me.huzhiwei.zuul.ZuulApplication;
 import me.huzhiwei.zuul.config.OAuth2Config;
 import me.huzhiwei.zuul.domain.Client;
 import me.huzhiwei.zuul.domain.RequestQuery;
+import me.huzhiwei.zuul.domain.Route;
 import me.huzhiwei.zuul.domain.ServiceGroup;
 import me.huzhiwei.zuul.mapper.ClientMapper;
 import me.huzhiwei.zuul.mapper.RequestMapper;
-import me.huzhiwei.zuul.mapper.RouteGroupMapper;
+import me.huzhiwei.zuul.mapper.RouteMapper;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 import java.util.Map;
@@ -30,9 +32,6 @@ import java.util.stream.Collectors;
 @SpringBootTest(classes = ZuulApplication.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MapperTest {
-
-    @Autowired
-    private RouteGroupMapper routeGroupMapper;
 
     @Autowired
     private RequestMapper requestMapper;
@@ -84,4 +83,14 @@ public class MapperTest {
         System.out.println(serviceGroups);
     }
 
+    @Autowired
+    private RouteMapper routeMapper;
+
+    @Test
+    public void testGetRoutes() {
+        Example example = new Example(Route.class);
+        example.createCriteria().andEqualTo("online", true);
+        List<Route> allRoutes = routeMapper.selectByExample(example);
+        System.out.println(allRoutes);
+    }
 }

@@ -1,7 +1,6 @@
 import me.huzhiwei.zuul.ZuulApplication;
 import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.RouteAddRO;
-import me.huzhiwei.zuul.domain.RouteGroup;
 import me.huzhiwei.zuul.domain.ServiceAddRO;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -39,58 +38,27 @@ public class RouteControllerTest {
 	}
 
 	@Test
-	public void testAAddRouteGroup() throws Exception {
-		RouteGroup routeGroup = new RouteGroup();
-		routeGroup.setName("business");
-		routeGroup.setOnline(true);
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/route/groups").content(Constant.GSON.toJson(routeGroup)).contentType(MediaType.APPLICATION_JSON))
-				.andReturn();
-		System.out.println(result.getResponse().getContentAsString());
-	}
-
-	@Test
 	public void testCAddRoute() throws Exception {
 		RouteAddRO zuulRouteRO = new RouteAddRO();
 		zuulRouteRO.setName("user");
 		zuulRouteRO.setPath("/user/**");
 		zuulRouteRO.setStripPrefix(false);
 		zuulRouteRO.setServiceId("user-service");
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/route/groups/business/routes").content(Constant.GSON.toJson(zuulRouteRO)).contentType(MediaType.APPLICATION_JSON))
-				.andReturn();
-		System.out.println(result.getResponse().getContentAsString());
-	}
-
-	@Test
-	public void testCGetRouteGroups() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/route/groups"))
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/gateway/routes").content(Constant.GSON.toJson(zuulRouteRO)).contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		System.out.println(result.getResponse().getContentAsString());
 	}
 
 	@Test
 	public void testDGetRoutes() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/route/groups/business/routes"))
-				.andReturn();
-		System.out.println(result.getResponse().getContentAsString());
-	}
-
-	@Test
-	public void testEDeleteRouteGroup() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/route/groups/business"))
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/gateway/routes"))
 				.andReturn();
 		System.out.println(result.getResponse().getContentAsString());
 	}
 
 	@Test
 	public void testFDeleteRoute() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/route/groups/business/routes/user"))
-				.andReturn();
-		System.out.println(result.getResponse().getContentAsString());
-	}
-
-	@Test
-	public void testGDeleteRouteGroup2() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/route/groups/business"))
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete("/gateway/routes/"))
 				.andReturn();
 		System.out.println(result.getResponse().getContentAsString());
 	}

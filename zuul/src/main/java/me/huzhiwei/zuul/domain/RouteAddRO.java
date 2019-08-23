@@ -20,14 +20,10 @@ public class RouteAddRO {
 	@NotBlank
 	private String path;
 
+	@NotBlank
 	private String serviceId;
-
-	private String url;
 
 	private Boolean stripPrefix = false;
 
-	private Boolean retryable;
-
-	@NotBlank
-	private String groupId;
+	private Boolean online = false;
 }

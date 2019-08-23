@@ -1,13 +1,12 @@
 package me.huzhiwei.zuul.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.Result;
 import me.huzhiwei.zuul.domain.Route;
 import me.huzhiwei.zuul.domain.RouteAddRO;
-import me.huzhiwei.zuul.domain.RouteGroup;
-import me.huzhiwei.zuul.domain.RouteGroupAddRO;
-import me.huzhiwei.zuul.exception.BusinessException;
+import me.huzhiwei.zuul.domain.RouteQuery;
 import me.huzhiwei.zuul.service.RefreshService;
 import me.huzhiwei.zuul.service.RouteService;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +26,7 @@ import javax.validation.Valid;
 
 @Validated
 @RestController
-@RequestMapping(value = "/gateway/route")
+@RequestMapping(value = "/gateway/routes")
 @Slf4j
 public class RouteController {
 
@@ -49,73 +48,46 @@ public class RouteController {
 	}
 
 
-	@GetMapping("/groups/{groupId}/routes")
-	public Result getRoutes(@PathVariable String groupId) {
-		return Result.success(routeService.getRoutes(groupId));
+	@GetMapping("/")
+	public Result getRoute(RouteQuery query) {
+		PageInfo<Route> pageInfo = PageHelper.startPage(query).doSelectPageInfo(() -> routeService.getRoutes(query));
+		return Result.success(pageInfo);
 	}
 
-	@DeleteMapping("/groups/{groupId}/routes/{routeId}")
-	public Result delRoute(@PathVariable String groupId, @PathVariable String routeId) {
-		routeService.deleteRoute(groupId, routeId);
+	@GetMapping("/{routeId}")
+	public Result getRoute(@PathVariable String routeId) {
+		Route route = routeService.getRoute(routeId);
+		return Result.success(route);
+	}
+
+	@DeleteMapping("/{routeId}")
+	public Result delRoute(@PathVariable String routeId) {
+		routeService.deleteRoute(routeId);
 		refreshService.refreshRoute();
 		return Result.success();
 	}
 
-	@PostMapping("/groups/{groupId}/routes")
-	public Result addRoute(@PathVariable String groupId, @Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
+	@PostMapping("/")
+	public Result addRoute(@Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
 		Route route = new Route();
 		BeanUtils.copyProperties(routeAddRO, route);
-		routeService.addRoute(groupId, route);
+		routeService.addRoute(route);
 		refreshService.refreshRoute();
 		return Result.success();
 	}
 
-	@PutMapping("/groups/{groupId}/routes/{routeId}")
-	public Result updateRoute(@PathVariable String groupId, @PathVariable String routeId, @Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
+	@PutMapping("/{routeId}")
+	public Result updateRoute(@PathVariable String routeId, @Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
 		routeAddRO.setId(routeId);
 		Route route = new Route();
 		BeanUtils.copyProperties(routeAddRO, route);
-		routeService.updateRoute(groupId, route);
+		routeService.updateRoute(route);
 		refreshService.refreshRoute();
 		return Result.success();
 	}
 
 	@GetMapping("/refreshRoute")
 	public Result refresh() {
-		routeService.reload();
-		refreshService.refreshRoute();
-		return Result.success();
-	}
-
-	@GetMapping("/groups")
-	public Result getRouteGroups() {
-		return Result.success(routeService.getRouteGroups());
-	}
-
-	@PostMapping("/groups")
-	public Result addRouteGroup(@Valid @RequestBody RouteGroupAddRO routeGroupAddRO) throws BusinessException {
-		RouteGroup routeGroup = new RouteGroup();
-		BeanUtils.copyProperties(routeGroupAddRO, routeGroup);
-		routeService.addRouteGroup(routeGroup);
-		return Result.success(routeGroup);
-	}
-
-	@PutMapping("/groups/{groupId}")
-	public Result updateRouteGroup(@PathVariable String groupId, @Valid @RequestBody RouteGroupAddRO routeGroupAddRO) throws BusinessException {
-		routeGroupAddRO.setId(groupId);
-		RouteGroup routeGroup = new RouteGroup();
-		BeanUtils.copyProperties(routeGroupAddRO, routeGroup);
-		routeService.updateRouteGroup(routeGroup);
-		return Result.success();
-	}
-
-	@DeleteMapping("/groups/{id}")
-	public Result deleteRouteGroup(@PathVariable String id) {
-		RouteGroup routeGroup = routeService.getRouteGroup(id);
-		if (routeGroup == null) {
-			return Result.fail(Constant.ResultCode.INVALID_PARAMETER, String.format("route group: %s 不存在", id));
-		}
-		routeService.deleteRouteGroup(id);
 		refreshService.refreshRoute();
 		return Result.success();
 	}

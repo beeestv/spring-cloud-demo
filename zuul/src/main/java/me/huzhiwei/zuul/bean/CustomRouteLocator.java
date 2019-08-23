@@ -8,9 +8,8 @@ import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -69,10 +68,7 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
 	}
 
 	private Map<String, ZuulProperties.ZuulRoute> locateRoutesFromService() {
-		List<ZuulProperties.ZuulRoute> values = new ArrayList<>();
-		for (Map<String, ZuulProperties.ZuulRoute> value : routeService.getAllRoutes().values()) {
-			values.addAll(value.values());
-		}
+		Collection<ZuulProperties.ZuulRoute> values = routeService.getAllRoutes().values();
 		return values.stream().collect(Collectors.toMap(ZuulProperties.ZuulRoute::getPath, v -> v));
 	}
 

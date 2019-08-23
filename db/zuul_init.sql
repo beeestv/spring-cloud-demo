@@ -9,6 +9,7 @@ CREATE TABLE `route`
     `path`         varchar(255) NOT NULL,
     `service_id`   varchar(255) DEFAULT NULL,
     `strip_prefix` tinyint(1)   NOT NULL,
+    `online`       tinyint(1)   DEFAULT '0',
     UNIQUE KEY (`path`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
@@ -19,7 +20,7 @@ CREATE TABLE `request`
 (
     `id`            bigint(11)   NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `request_id`    bigint(20)   NOT NULL,
-    `client_ip`          varchar(50)  NOT NULL,
+    `client_ip`     varchar(50)  NOT NULL,
     `method`        varchar(10)  NOT NULL,
     `url`           varchar(100) NOT NULL,
     `uri`           varchar(100) DEFAULT NULL,

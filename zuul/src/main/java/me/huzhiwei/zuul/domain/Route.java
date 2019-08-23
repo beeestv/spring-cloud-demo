@@ -3,7 +3,6 @@ package me.huzhiwei.zuul.domain;
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 
-import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -22,14 +21,6 @@ public class Route implements Serializable {
     private String name;
     private String path;
     private String serviceId;
-    private String url;
-    @Column
     private Boolean stripPrefix = false;
-    private String groupId;
-
-    public Route() {}
-
-    public Route(String id) {
-        this.groupId = id;
-    }
+    private Boolean online;
 }
