@@ -22,7 +22,7 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.NoSuchClientException;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 import javax.sql.DataSource;
 
@@ -99,7 +99,7 @@ public class OAuth2Config {
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             endpoints
-                    .tokenStore(new JdbcTokenStore(dataSource))
+                    .tokenStore(new InMemoryTokenStore())
                     .authenticationManager(authenticationManager)
                     //不配置无法refresh token
                     .userDetailsService(userDetailsService);
