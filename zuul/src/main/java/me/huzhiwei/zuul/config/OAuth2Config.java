@@ -1,5 +1,8 @@
 package me.huzhiwei.zuul.config;
 
+import me.huzhiwei.zuul.constant.Constant;
+import me.huzhiwei.zuul.domain.Client;
+import me.huzhiwei.zuul.mapper.ClientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +18,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.ClientRegistrationException;
+import org.springframework.security.oauth2.provider.NoSuchClientException;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
 
@@ -26,14 +33,13 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class OAuth2Config {
-    public static String RESOURECE_ID = "RID";
 
     @Configuration
     @EnableResourceServer
     static class ResourceServer extends ResourceServerConfigurerAdapter {
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-            resources.resourceId(RESOURECE_ID);
+            resources.resourceId(Constant.RESOURECE_ID);
         }
 
         @Override
@@ -57,11 +63,14 @@ public class OAuth2Config {
         private AuthenticationManager authenticationManager;
 
         @Autowired
-        @Qualifier("userDetailsServiceImpl")
-        private UserDetailsService userDetailsService;
+        private ClientMapper clientMapper;
 
         @Autowired
         private DataSource dataSource;
+
+        @Autowired
+        @Qualifier("userDetailsServiceImpl")
+        private UserDetailsService userDetailsService;
 
         @Autowired
         private PasswordEncoder passwordEncoder;
@@ -74,13 +83,23 @@ public class OAuth2Config {
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-            clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
+            clients.withClientDetails(new ClientDetailsService() {
+
+                @Override
+                public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
+                    Client client = clientMapper.selectByClientId(clientId);
+                    if (client == null) {
+                        throw new NoSuchClientException("No client with requested id: " + clientId);
+                    }
+                    return client;
+                }
+            });
         }
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             endpoints
-                    .tokenStore(new InMemoryTokenStore())
+                    .tokenStore(new JdbcTokenStore(dataSource))
                     .authenticationManager(authenticationManager)
                     //不配置无法refresh token
                     .userDetailsService(userDetailsService);

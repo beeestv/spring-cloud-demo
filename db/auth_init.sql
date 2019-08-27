@@ -46,8 +46,7 @@ CREATE TABLE `oauth_approvals`
 DROP TABLE IF EXISTS `oauth_client_details`;
 CREATE TABLE `oauth_client_details`
 (
-    `id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `client_name`             varchar(256) NOT NULL,
+    `id`                      bigint(20)   NOT NULL AUTO_INCREMENT,
     `client_id`               varchar(256) NOT NULL,
     `resource_ids`            varchar(256)  DEFAULT NULL,
     `client_secret`           varchar(256)  DEFAULT NULL,
@@ -59,6 +58,7 @@ CREATE TABLE `oauth_client_details`
     `refresh_token_validity`  int(11)       DEFAULT NULL,
     `additional_information`  varchar(4096) DEFAULT NULL,
     `autoapprove`             varchar(256)  DEFAULT NULL,
+    `available`               tinyint(1)    DEFAULT 0,
     PRIMARY KEY (`client_id`),
     UNIQUE KEY (`id`)
 ) ENGINE = InnoDB

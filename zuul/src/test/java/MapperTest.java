@@ -2,7 +2,7 @@ import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.agent.model.Service;
 import me.huzhiwei.zuul.ZuulApplication;
-import me.huzhiwei.zuul.config.OAuth2Config;
+import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.Client;
 import me.huzhiwei.zuul.domain.RequestQuery;
 import me.huzhiwei.zuul.domain.Route;
@@ -62,10 +62,15 @@ public class MapperTest {
         Client client = new Client();
         client.setClientId("tester2");
         client.setClientSecret("123456");
-        client.setResourceIds(OAuth2Config.RESOURECE_ID);
-        client.setScope("read");
-        client.setClientName(client.getClientId());
+        client.setResourceIdsString(Constant.RESOURECE_ID);
+        client.setScopeString("read");
         clientMapper.insert(client);
+    }
+
+    @Test
+    public void testSelectClient() {
+        List<Client> clients = clientMapper.selectListByClientId("te" + "%");
+        System.out.println(clients);
     }
 
     @Autowired

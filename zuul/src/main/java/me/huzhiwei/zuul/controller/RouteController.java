@@ -78,9 +78,9 @@ public class RouteController {
 
 	@PutMapping("/{routeId}")
 	public Result updateRoute(@PathVariable String routeId, @Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
-		routeAddRO.setId(routeId);
 		Route route = new Route();
 		BeanUtils.copyProperties(routeAddRO, route);
+		route.setId(routeId);
 		routeService.updateRoute(route);
 		refreshService.refreshRoute();
 		return Result.success();
