@@ -11,6 +11,7 @@ import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.Result;
 import me.huzhiwei.zuul.domain.ServiceAddRO;
 import me.huzhiwei.zuul.domain.ServiceGroup;
+import me.huzhiwei.zuul.domain.ServiceVO;
 import me.huzhiwei.zuul.domain.ServiceWithCheck;
 import me.huzhiwei.zuul.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,17 @@ public class ConsulController {
 
     @GetMapping("/services")
     public Result getAllService() {
-        Response<Map<String, Service>> agentServices = consulClient.getAgentServices();
-        List<ServiceGroup> serviceGroups = agentServices.getValue()
+        Map<String, Service> agentServices = consulClient.getAgentServices().getValue();
+        Map<String, com.ecwid.consul.v1.agent.model.Check> agentChecks = consulClient.getAgentChecks().getValue();
+        List<ServiceGroup> serviceGroups = agentServices
                 .values().stream()
-                .collect(Collectors.groupingBy(Service::getService))
+                .map(service -> {
+                    com.ecwid.consul.v1.agent.model.Check check = agentChecks.get("service:" + service.getId());
+                    return new ServiceVO(service, check);
+                })
+                .collect(Collectors.groupingBy(ServiceVO::getService))
                 .values().stream()
-                .map(services -> new ServiceGroup(services.get(0).getService(), services))
+                .map(serviceVOs -> new ServiceGroup(serviceVOs.get(0).getService(), serviceVOs))
                 .collect(Collectors.toList());
         return Result.success(serviceGroups);
     }

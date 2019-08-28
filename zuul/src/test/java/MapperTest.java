@@ -1,12 +1,11 @@
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.Response;
-import com.ecwid.consul.v1.agent.model.Service;
+import com.ecwid.consul.v1.agent.model.Check;
 import me.huzhiwei.zuul.ZuulApplication;
 import me.huzhiwei.zuul.constant.Constant;
 import me.huzhiwei.zuul.domain.Client;
 import me.huzhiwei.zuul.domain.RequestQuery;
 import me.huzhiwei.zuul.domain.Route;
-import me.huzhiwei.zuul.domain.ServiceGroup;
 import me.huzhiwei.zuul.mapper.ClientMapper;
 import me.huzhiwei.zuul.mapper.RequestMapper;
 import me.huzhiwei.zuul.mapper.RouteMapper;
@@ -21,7 +20,6 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * description:
@@ -78,14 +76,12 @@ public class MapperTest {
 
     @Test
     public void testConsulClient() {
-        Response<Map<String, Service>> agentServices = consulClient.getAgentServices();
-        List<ServiceGroup> serviceGroups = agentServices.getValue()
-                .values().stream()
-                .collect(Collectors.groupingBy(Service::getService))
-                .values().stream()
-                .map(services -> new ServiceGroup(services.get(0).getService(), services))
-                .collect(Collectors.toList());
-        System.out.println(serviceGroups);
+    }
+
+    @Test
+    public void testConsulClinetChecks() {
+        Response<Map<String, Check>> agentChecks = consulClient.getAgentChecks();
+        agentChecks.getValue().values().forEach(System.out::println);
     }
 
     @Autowired
