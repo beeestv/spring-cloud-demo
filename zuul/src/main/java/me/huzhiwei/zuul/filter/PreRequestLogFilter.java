@@ -8,7 +8,6 @@ import me.huzhiwei.zuul.domain.Request;
 import me.huzhiwei.zuul.mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,7 +17,7 @@ import java.util.concurrent.Executors;
  * author: koshitakashi
  * date: 2019-08-13 10:58
  */
-@Component
+//@Component
 @Slf4j
 public class PreRequestLogFilter extends ZuulFilter {
     private static ExecutorService executorService = Executors.newFixedThreadPool(30);

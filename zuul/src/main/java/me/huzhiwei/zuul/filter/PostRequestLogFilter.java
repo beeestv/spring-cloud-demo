@@ -9,7 +9,6 @@ import me.huzhiwei.zuul.domain.Request;
 import me.huzhiwei.zuul.mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
-import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.concurrent.Executors;
  * author: koshitakashi
  * date: 2019-08-13 08:40
  */
-@Component
+//@Component
 @Slf4j
 public class PostRequestLogFilter extends ZuulFilter {
     private static ExecutorService executorService = Executors.newFixedThreadPool(20);
