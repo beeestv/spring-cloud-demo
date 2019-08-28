@@ -15,11 +15,15 @@ public class ServiceVO extends Service {
     private String output;
 
     public ServiceVO(Service service, Check check) {
-        this.setId(service.getId());
-        this.setService(service.getService());
-        this.setAddress(service.getAddress());
-        this.setPort(service.getPort());
-        this.status = check.getStatus().name();
-        this.output = check.getOutput();
+        if (service != null) {
+            this.setId(service.getId());
+            this.setService(service.getService());
+            this.setAddress(service.getAddress());
+            this.setPort(service.getPort());
+        }
+        if (check != null) {
+            this.status = check.getStatus().name();
+            this.output = check.getOutput();
+        }
     }
 }
