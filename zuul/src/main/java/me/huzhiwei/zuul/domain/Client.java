@@ -6,10 +6,13 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * description:
@@ -58,7 +61,7 @@ public class Client implements ClientDetails {
     @Override
     public Set<String> getAuthorizedGrantTypes() {
         if (StringUtils.isBlank(this.authorizedGrantTypesString)) {
-            return null;
+            return new HashSet<>();
         } else {
             return Sets.newHashSet(this.authorizedGrantTypesString.split(","));
         }
@@ -71,7 +74,16 @@ public class Client implements ClientDetails {
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        if (StringUtils.isBlank(this.authoritiesString)) {
+            return new ArrayList<>();
+        } else {
+            String[] authorities = this.authoritiesString.split(",");
+            return Arrays.stream(authorities).map(auth -> {
+                Role role = new Role();
+                role.setName(auth);
+                return role;
+            }).collect(Collectors.toList());
+        }
     }
 
     @Override

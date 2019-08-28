@@ -46,7 +46,10 @@ public class OAuth2Config {
         public void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/favicon.ico", "/oauth/**", "/gateway/**", "/actuator/**", "/hystrix/**").anonymous()
+                    .antMatchers("/favicon.ico", "/oauth/**", "/actuator/**", "/hystrix/**").anonymous()
+                    .and()
+                    .authorizeRequests().antMatchers("/gateway/**")
+                    .hasAuthority("ROLE_ADMIN")
                     .and()
                     .authorizeRequests()
                     .anyRequest().authenticated()

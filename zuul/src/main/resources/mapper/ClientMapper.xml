@@ -14,8 +14,7 @@
         select id, client_id clientId, client_secret clientSecret, resource_ids resourceIdsString, authorities authoritiesString, scope scopeString, available,
         authorized_grant_types authorizedGrantTypesString
         from oauth_client_details
-        <where>
+        where (authorities != "ROLE_ADMIN" or authorities is null)
             <if test="clientId!=null">and client_id like #{clientId}</if>
-        </where>
     </select>
 </mapper>
