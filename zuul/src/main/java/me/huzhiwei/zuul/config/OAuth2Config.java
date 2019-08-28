@@ -5,6 +5,7 @@ import me.huzhiwei.zuul.domain.Client;
 import me.huzhiwei.zuul.mapper.ClientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -99,10 +100,15 @@ public class OAuth2Config {
             });
         }
 
+        @Bean
+        public InMemoryTokenStore inMemoryTokenStore() {
+            return new InMemoryTokenStore();
+        }
+
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             endpoints
-                    .tokenStore(new InMemoryTokenStore())
+                    .tokenStore(inMemoryTokenStore())
                     .authenticationManager(authenticationManager)
                     //不配置无法refresh token
                     .userDetailsService(userDetailsService);
