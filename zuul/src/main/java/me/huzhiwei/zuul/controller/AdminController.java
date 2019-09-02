@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
  * date: 2019-08-28 19:57
  */
 @RestController
-@RequestMapping("/gateway/admin")
+@RequestMapping("/gateway")
 @Validated
 public class AdminController {
 
     @Autowired
     private InMemoryTokenStore tokenStore;
 
-    @PostMapping("/logout")
+    @PostMapping("/admin/logout")
     public Result logout(@RequestParam("access_token") String accessToken) {
         tokenStore.removeAccessToken(accessToken);
         return Result.success();

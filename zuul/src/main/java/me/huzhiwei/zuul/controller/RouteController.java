@@ -26,7 +26,7 @@ import javax.validation.Valid;
 
 @Validated
 @RestController
-@RequestMapping(value = "/gateway/routes")
+@RequestMapping(value = "/gateway")
 @Slf4j
 public class RouteController {
 
@@ -42,32 +42,32 @@ public class RouteController {
 	/**
 	 * zuul实际加载的路由表
 	 */
-	@RequestMapping("/watchRoute")
+	@RequestMapping("/routes/watchRoute")
 	public Result watchNowRoute() {
 		return Result.success(zuulHandlerMapping.getHandlerMap());
 	}
 
 
-	@GetMapping("/")
+	@GetMapping("/routes")
 	public Result getRoute(RouteQuery query) {
 		PageInfo<Route> pageInfo = PageHelper.startPage(query).doSelectPageInfo(() -> routeService.getRoutes(query));
 		return Result.success(pageInfo);
 	}
 
-	@GetMapping("/{routeId}")
+	@GetMapping("/routes/{routeId}")
 	public Result getRoute(@PathVariable String routeId) {
 		Route route = routeService.getRoute(routeId);
 		return Result.success(route);
 	}
 
-	@DeleteMapping("/{routeId}")
+	@DeleteMapping("/routes/{routeId}")
 	public Result delRoute(@PathVariable String routeId) {
 		routeService.deleteRoute(routeId);
 		refreshService.refreshRoute();
 		return Result.success();
 	}
 
-	@PostMapping("/")
+	@PostMapping("/routes")
 	public Result addRoute(@Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
 		Route route = new Route();
 		BeanUtils.copyProperties(routeAddRO, route);
@@ -76,7 +76,7 @@ public class RouteController {
 		return Result.success();
 	}
 
-	@PutMapping("/{routeId}")
+	@PutMapping("/routes/{routeId}")
 	public Result updateRoute(@PathVariable String routeId, @Valid @RequestBody RouteAddRO routeAddRO) throws Exception {
 		Route route = new Route();
 		BeanUtils.copyProperties(routeAddRO, route);
@@ -86,7 +86,7 @@ public class RouteController {
 		return Result.success();
 	}
 
-	@GetMapping("/refreshRoute")
+	@GetMapping("/routes/refreshRoute")
 	public Result refresh() {
 		refreshService.refreshRoute();
 		return Result.success();

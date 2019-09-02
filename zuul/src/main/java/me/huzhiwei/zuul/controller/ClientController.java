@@ -27,26 +27,26 @@ import javax.validation.Valid;
  * date: 2019-08-23 15:47
  */
 @RestController
-@RequestMapping("/gateway/clients")
+@RequestMapping("/gateway")
 @Validated
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
 
-    @GetMapping("/")
+    @GetMapping("/clients")
     public Result getClients(ClientQuery query) {
         PageInfo<Client> pageInfo = PageHelper.startPage(query).doSelectPageInfo(() -> clientService.getClients(query));
         return Result.success(pageInfo);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/clients/{id}")
     public Result getClientsById(@PathVariable Long id) {
         Client client = clientService.getClientById(id);
         return Result.success(client);
     }
 
-    @PostMapping("/")
+    @PostMapping("/clients")
     public Result addClient(@Valid @RequestBody ClientAddRO clientAddRO) {
         Client client = new Client();
         BeanUtils.copyProperties(clientAddRO, client);
@@ -54,7 +54,7 @@ public class ClientController {
         return Result.success();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/clients/{id}")
     public Result updateClient(@PathVariable Long id, @Valid @RequestBody ClientAddRO clientAddRO) {
         Client client = new Client();
         BeanUtils.copyProperties(clientAddRO, client);
@@ -63,13 +63,13 @@ public class ClientController {
         return Result.success();
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/clients/{id}")
     public Result renewClient(@PathVariable Long id) {
         clientService.renewClient(id);
         return Result.success();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/clients/{id}")
     public Result deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
         return Result.success();

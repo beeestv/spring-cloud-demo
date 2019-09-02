@@ -17,14 +17,14 @@ import java.util.Map;
  * date: 2019-08-12 15:10
  */
 @RestController
-@RequestMapping("/gateway/monitor")
+@RequestMapping("/gateway")
 @Slf4j
 public class MonitorController {
 
     @Autowired
     private RequestMapper requestMapper;
 
-    @GetMapping
+    @GetMapping("/monitor")
     public Result overview(RequestQuery query) {
         Map<String, Object> overview = requestMapper.overview(query);
         return Result.success(overview);

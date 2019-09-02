@@ -34,13 +34,13 @@ import java.util.stream.Collectors;
  * date: 2019-08-20 17:15
  */
 @RestController
-@RequestMapping("/gateway/consul")
+@RequestMapping("/gateway")
 public class ConsulController {
 
     @Autowired
     private ConsulClient consulClient;
 
-    @GetMapping("/services")
+    @GetMapping("/consul/services")
     public Result getAllService() {
         Map<String, Service> agentServices = consulClient.getAgentServices().getValue();
         Map<String, com.ecwid.consul.v1.agent.model.Check> agentChecks = consulClient.getAgentChecks().getValue();
@@ -57,7 +57,7 @@ public class ConsulController {
         return Result.success(serviceGroups);
     }
 
-    @GetMapping("/services/{serviceId}")
+    @GetMapping("/consul/services/{serviceId}")
     public Result getServiceById(@PathVariable String serviceId) throws BusinessException {
         Response<Map<String, Service>> agentServices = consulClient.getAgentServices();
 
@@ -87,7 +87,7 @@ public class ConsulController {
         return Result.success(serviceWithCheck);
     }
 
-    @PostMapping("/services")
+    @PostMapping("/consul/services")
     public Result addService(@RequestBody ServiceAddRO serviceAddRO) {
         NewService newService = new NewService();
         newService.setId(serviceAddRO.getService() + "-" + serviceAddRO.getAddress().replace(".", "-") + "-" + serviceAddRO.getPort());
@@ -103,7 +103,7 @@ public class ConsulController {
         return Result.success();
     }
 
-    @DeleteMapping("/services/{serviceId}")
+    @DeleteMapping("/consul/services/{serviceId}")
     public Result deleteService(@PathVariable String serviceId) {
         consulClient.agentServiceDeregister(serviceId);
         return Result.success();
